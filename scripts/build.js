@@ -47,7 +47,9 @@ function buildEntry (config) {
   return rollup.rollup(config)
     .then(bundle => bundle.generate(output))
     .then(({ output: [{ code }] }) => {
-      if (isProd) {
+      // HACK: skip minification for all files; this allows us to generate unminified versions of *.prod.js
+      // eslint-disable-next-line no-constant-condition
+      if (isProd && false) {
         const minified = (banner ? banner + '\n' : '') + terser.minify(code, {
           toplevel: true,
           output: {
